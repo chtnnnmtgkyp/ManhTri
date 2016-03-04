@@ -22,11 +22,30 @@ public class Bullet extends GameObject{
         this.positionY = positionY;
         this.speed = speed;
         this.type = type;
-        try {
-            this.sprite = ImageIO.read(new File("Resources/DAN.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        switch (type) {
+            case 1:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/DAN2.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/DAN2.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/DAN.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
+
     }
 
     public void move(){
@@ -54,8 +73,10 @@ public class Bullet extends GameObject{
     public void update(){
         if(this.type==1){
             this.move();
-        }else{
+        }else if(this.type==2){
             this.move2();
+        }else{
+            this.move();
         }
     }
 

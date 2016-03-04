@@ -65,7 +65,7 @@ public class Plane extends PlaneAbstract{
     }
 
     public void shot(){
-        Bullet bul = new Bullet(this.positionX + 30, this.positionY, 10,1);
+        Bullet bul = new Bullet(this.positionX + 30, this.positionY, 10,3);
         vecBul.add(bul);
     }
     private Vector<Bullet> vecBul = new Vector<Bullet>();
