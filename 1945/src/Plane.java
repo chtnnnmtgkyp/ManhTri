@@ -1,61 +1,84 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
 
 /**
- * Created by chtnnnmtgkyp on 2/28/2016.
+ * Created by hungtran on 3/1/16.
  */
-public class Plane{
-    private int planeX;
-    private int planeY;
-    private int planeX2;
-    private int planeY2;
-    private int speed;
+public class Plane extends PlaneAbstract{
     private int hp;
-    private int damage;
     private int planeType;
-    public BufferedImage sprite;
-    public BufferedImage sprite1;
+    private int dam;
 
-    private int dir;
-
-    public int getPlaneX() {
-        return planeX;
+    private Plane(){
+        //khong co kieu tra ve
+        //ten ham giong het ten Class
+        this.positionX = 300;
+        this.positionY = 300;
+        this.speed = 4;
+        try {
+            this.sprite = ImageIO.read(new File("Resources/PLANE1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    public void setPlaneX(int planeX) {
-        this.planeX = planeX;
-    }
-
-    public int getPlaneY() {
-        return planeY;
-    }
-
-    public void setPlaneY(int planeY) {
-        this.planeY = planeY;
-    }
-
-    public int getPlaneX2() {
-        return planeX2;
-    }
-
-    public void setPlaneX2(int planeX2) {
-        this.planeX2 = planeX2;
-    }
-
-    public int getPlaneY2() {
-        return planeY2;
-    }
-
-    public void setPlaneY2(int planeY2) {
-        this.planeY2 = planeY2;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
+    //new Plane(1,1,1,ImageIO.read(new FIle(adasdsa)))
+    public Plane(int positionX, int positionY, int speed, int planeType){
+        //co the co nhieu ham khoi tao co tham so
+        //chi can khac nhau cac tham so truyen vao
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.speed = speed;
+        switch (planeType){
+            case 1:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/PLANE1.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/PLANE2.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/PLANE3.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 4:
+                try {
+                    this.sprite = ImageIO.read(new File("Resources/PLANE4.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    public void shot(){
+        Bullet bul = new Bullet(this.positionX + 30, this.positionY, 10,1);
+        vecBul.add(bul);
+    }
+    private Vector<Bullet> vecBul = new Vector<Bullet>();
+
+
+
+
+    private int direction;
+
+
+
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
     }
 
     public int getHp() {
@@ -66,14 +89,6 @@ public class Plane{
         this.hp = hp;
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
     public int getPlaneType() {
         return planeType;
     }
@@ -82,37 +97,69 @@ public class Plane{
         this.planeType = planeType;
     }
 
-    public int getDir() {
-        return dir;
+    public int getDam() {
+        return dam;
     }
 
-    public void setDir(int dir) {
-        this.dir = dir;
+    public void setDam(int dam) {
+        this.dam = dam;
+    }
+    
+
+    public BufferedImage getSprite() {
+        return sprite;
     }
 
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+
+    }
+    public void  move(int x, int y){
+        this.positionX = x;
+        this.positionY = y;
+    }
     private void move(){
-            if (dir == 0) {
-            } else if (dir == 1) {
-                this.planeY -= this.speed;
-
-            } else if (dir == 2) {
-                this.planeY += this.speed;
-
-            } else if (dir == 3) {
-                this.planeX -= this.speed;
-
-            } else if (dir == 4) {
-                this.planeX += this.speed;
-
-            }
+        switch (direction){
+            case 0:
+                //dung im
+                break;
+            case 1:
+                this.positionY -= this.speed;
+                break;
+            case 2:
+                this.positionY += this.speed;
+                break;
+            case 3:
+                this.positionX -= this.speed;
+                break;
+            case 4:
+                this.positionX += this.speed;
+                break;
+        }
     }
-
     public void update(){
         this.move();
+        for (Bullet bul : vecBul){
+            bul.update();
+        }
     }
-
     public void draw(Graphics g){
-        g.drawImage(this.sprite,this.planeX,this.planeY,null);
+        g.drawImage(sprite,(int)positionX,(int)positionY,null);
+        for (Bullet bul : vecBul){
+            bul.draw(g);
+        }
     }
 
 }
